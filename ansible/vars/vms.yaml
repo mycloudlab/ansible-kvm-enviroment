@@ -1,0 +1,25 @@
+vms:
+- name : vm01
+  hostname : 'test-vm01'
+  vcpu: 1
+  memory_kib : '1048576'
+  qcow_template_disk_file: '/home/csantana/VirtualMachines/rhel-server-7.8-x86_64-kvm.qcow2'
+  qcow_disk_file : '/home/csantana/VirtualMachines/vm01.qcow2'
+  root_password: kafka
+  networks:
+    - name: test2
+      ip: 192.168.127.10
+    - name: test
+      ip: 192.168.126.10
+- name : vm02
+  hostname : 'test-vm02'
+  vcpu: 1
+  memory_kib : '1048576'
+  qcow_template_disk_file: '/home/csantana/VirtualMachines/rhel-server-7.8-x86_64-kvm.qcow2'
+  qcow_disk_file : '/home/csantana/VirtualMachines/vm02.qcow2'
+  root_password: kafka
+  networks:
+    - name: test2
+      ip: 192.168.127.11
+    - name: test
+      ip: 192.168.126.11

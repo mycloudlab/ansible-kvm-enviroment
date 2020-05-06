@@ -1,5 +1,10 @@
 ---
 - hosts: 
     - localhost
+
+
+  vars_files:
+    - ../vars/vms.yaml
+
   roles:
     - vms-start

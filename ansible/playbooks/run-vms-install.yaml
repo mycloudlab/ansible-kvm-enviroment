@@ -1,6 +1,11 @@
 ---
 - hosts: 
     - localhost
+
+  vars_files:
+    - ../vars/networks.yaml
+    - ../vars/vms.yaml
+
   roles:
     - network-create
     - vms-create

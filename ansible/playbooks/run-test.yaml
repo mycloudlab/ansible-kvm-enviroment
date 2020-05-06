@@ -1,0 +1,10 @@
+---
+- name: test
+  hosts: 
+    - localhost
+  vars_files:
+    - ../vars/vms.yaml
+  tasks:
+  - name: debug
+    debug:
+      msg: System {{ vms }} has gateway 

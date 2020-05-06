@@ -17,22 +17,23 @@ help:
 .PHONY:
 
 vms-install: ## instala as vms e rede 
-	@unbuffer ansible-playbook -i inventory/hosts.yaml playbooks/run-vm-install.yaml | sed -E 's/\\n/\n/g'
+	@unbuffer ansible-playbook playbooks/run-vms-install.yaml | sed -E 's/\\n/\n/g'
 
 vms-start: ## inicia as vms
-	@unbuffer ansible-playbook -i inventory/hosts.yaml playbooks/run-vm-start.yaml | sed -E 's/\\n/\n/g'
+	@unbuffer ansible-playbook playbooks/run-vms-start.yaml | sed -E 's/\\n/\n/g'
 
 vms-ssh-keys: ## configura ssh
-	@unbuffer ansible-playbook -i inventory/hosts.yaml playbooks/run-vm-ssh-keys.yaml --extra-vars "ansible_user=root ansible_password=kafka" | sed -E 's/\\n/\n/g'
-	# todo desabilitar usuario root com acesso ao ssh
+	@unbuffer ansible-playbook -i inventory/hosts_config-ssh.sh playbooks/run-vm-ssh-keys.yaml  | sed -E 's/\\n/\n/g'
 
 vms-common-config: ## faz a configuração comum do servidor
-	@unbuffer ansible-playbook -i inventory/hosts.yaml playbooks/run-vm-common-config.yaml | sed -E 's/\\n/\n/g'
+	@unbuffer ansible-playbook playbooks/run-vm-common-config.yaml | sed -E 's/\\n/\n/g'
 
 vms-subscribe: ## subscreve as maquinas
-	@unbuffer ansible-playbook -i inventory/hosts.yaml playbooks/run-vm-subscribe.yaml | sed -E 's/\\n/\n/g'
+	@unbuffer ansible-playbook playbooks/run-vms-subscribe.yaml | sed -E 's/\\n/\n/g'
 
+test: 
+	@unbuffer ansible-playbook  playbooks/run-test.yaml | sed -E 's/\\n/\n/g'
 
 
 cleanup: ## limpa instalação removendo máquinas e rede
-	@unbuffer ansible-playbook -i inventory/hosts.yaml playbooks/run-cleanup.yaml | sed -E 's/\\n/\n/g'
+	@unbuffer ansible-playbook playbooks/run-cleanup.yaml | sed -E 's/\\n/\n/g'

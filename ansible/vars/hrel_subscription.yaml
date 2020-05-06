@@ -1,0 +1,5 @@
+redhat_subscription:
+  username: <user>
+  password: <passwd>
+  pool_ids:
+    - <pool_id>
