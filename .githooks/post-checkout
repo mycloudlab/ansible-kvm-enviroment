@@ -1,0 +1,5 @@
+#!/bin/bash
+
+echo ignorando modificaçoes com informaçoes de subscription
+git update-index --assume-unchanged ansible/vars/hrel_subscription.yaml
+
