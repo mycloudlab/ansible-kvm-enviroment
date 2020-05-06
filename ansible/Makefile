@@ -16,6 +16,10 @@ help:
 
 .PHONY:
 
+configure: ## target que deve ser executado ao fazer o clone do projeto, ela configura a workspace do usuário 
+	@git update-index --assume-unchanged vars/hrel_subscription.yaml 
+	@printf "\nWorkspace configurada com sucesso. \n\n"
+	
 vms-install: ## instala as vms e rede 
 	@unbuffer ansible-playbook playbooks/run-vms-install.yaml | sed -E 's/\\n/\n/g'
 
