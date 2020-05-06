@@ -1,0 +1,7 @@
+---
+- name: subscribe vm to pool by ID.
+  redhat_subscription:
+    state: present
+    username: "{{ redhat_subscription.username }}"
+    password: "{{ redhat_subscription.password }}"
+    pool_ids: "{{ redhat_subscription.pool_ids }}"

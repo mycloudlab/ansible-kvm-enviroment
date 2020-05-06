@@ -1,0 +1,44 @@
+---
+- name: Get list of defined networks
+  virt_net:
+    command: list_nets
+  register: netlist
+
+- name: Show net list 
+  debug:
+    var:
+      netlist
+
+- name: Deactivate if exists
+  virt_net:
+    command: destroy
+    name: "{{ item.name }}"
+  when: item.name in netlist.list_nets
+  with_items: "{{ networks }}"
+  ignore_errors: yes
+
+- name: Undefine if exists
+  virt_net:
+    command: undefine
+    name: "{{ item.name }}"
+  when: item.name in netlist.list_nets
+  with_items: "{{ networks }}"
+
+- name: Create the network
+  virt_net:
+    command=define
+    name="{{ item.name }}"
+    xml='{{ lookup("template", "vm_net.xml.j2") }}'
+  with_items: "{{ networks }}"
+
+- name: Autostart it
+  virt_net:
+    name="{{ item.name }}"
+    autostart='yes'
+  with_items: "{{ networks }}"
+
+- name: Enable
+  virt_net: 
+    name={{ item.name }}
+    state=active
+  with_items: "{{ networks }}"

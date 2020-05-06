@@ -1,0 +1,20 @@
+---
+- name: Define and create VM(s)
+  virt:
+    command: define
+    xml: "{{ lookup('template', 'vm_template.xml.j2') }}"
+    uri: 'qemu:///system'
+  with_items: '{{ vms }}'
+
+- name: copy template_image to image
+  copy:
+    src: '{{ item.qcow_template_disk_file }}'
+    dest: '{{ item.qcow_disk_file }}'
+    remote_src: yes
+  with_items: '{{ vms }}'
+
+- name: change root password
+  shell: virt-customize -a {{ item.qcow_disk_file }} --root-password password:{{ item.root_password }} --firstboot-command "hostnamectl set-hostname {{item.hostname}}" {% for net in item.networks %} --firstboot-command "nmcli dev connect eth{{ loop.index0 }}" {% endfor %}
+  with_items: '{{ vms }}'
+
+

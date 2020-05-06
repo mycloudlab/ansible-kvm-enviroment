@@ -1,0 +1,16 @@
+---
+- name: rhel | Instalação dos pacotes necessários
+  package:
+    name: "{{ base_packages }}"
+    state: installed
+  register: result
+  until: result is success
+  retries: 3
+
+- name: rhel | Atualizando todos os pacotes
+  yum:
+    name: "*"
+    state: latest
+  register: update
+
+

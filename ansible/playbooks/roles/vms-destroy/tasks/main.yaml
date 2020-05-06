@@ -1,0 +1,21 @@
+---
+- name: stop vm
+  virt:
+    name: "{{ item.name }}"
+    state: shutdown
+  with_items: '{{ vms }}'
+
+- name: delete VM(s)
+  virt:
+    command: undefine
+    guest: "{{ item.name }}"
+    uri: 'qemu:///system'
+  with_items: '{{ vms }}'
+  ignore_errors: true
+
+- name: Remove qcow2 disk file
+  file:
+    path: '{{item.qcow_disk_file }}' 
+    state: absent
+  with_items: '{{ vms }}'
+  

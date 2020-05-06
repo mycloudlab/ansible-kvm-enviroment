@@ -1,0 +1,7 @@
+---
+base_packages:
+  - nano
+  - vim
+  - wget 
+  - net-tools 
+  - tuned

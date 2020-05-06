@@ -1,0 +1,77 @@
+all:
+  vars: 
+    ansible_user: ansible
+    redhat_subscription:
+      username: <user>
+      password: <password>
+      pool_ids:
+        - <poolids>
+
+    networks:
+
+      # network nat
+      - name: test
+        forward:
+          mode: nat
+          port:
+            start: 1025
+            end: 65535
+        bridge:
+          name: virbr3
+          stp: on
+          delay: 0
+        hwaddr: 52:54:00:f7:34:54
+        domainname: internal
+        ipaddr: 192.168.126.2
+        netmask: 255.255.255.0
+        dhcp_range:
+          start: 192.168.126.2
+          end: 192.168.126.253
+
+      # private net
+      - name: test2
+        bridge:
+          name: virbr2
+          stp: on
+          delay: 0
+        hwaddr: 52:54:00:f7:34:57
+        domainname: internal
+        ipaddr: 192.168.127.1
+        netmask: 255.255.255.0
+        dhcp_range:
+          start: 192.168.127.2
+          end: 192.168.127.254
+    vms:
+      - name : vm01
+        hostname : 'test-vm01'
+        vcpu: 1
+        memory_kib : '1048576'
+        qcow_template_disk_file: '/home/csantana/VirtualMachines/rhel-server-7.8-x86_64-kvm.qcow2'
+        qcow_disk_file : '/home/csantana/VirtualMachines/vm01.qcow2'
+        root_password: kafka
+        networks:
+          - name: test2
+            ip: 192.168.127.10
+          - name: test
+            ip: 192.168.126.10
+      - name : vm02
+        hostname : 'test-vm02'
+        vcpu: 1
+        memory_kib : '1048576'
+        qcow_template_disk_file: '/home/csantana/VirtualMachines/rhel-server-7.8-x86_64-kvm.qcow2'
+        qcow_disk_file : '/home/csantana/VirtualMachines/vm02.qcow2'
+        root_password: kafka
+        networks:
+          - name: test2
+            ip: 192.168.127.11
+          - name: test
+            ip: 192.168.126.11
+
+  children:
+    dns:
+      hosts:
+        192.168.127.10: 
+    kafka:
+      hosts:
+        192.168.127.11:
+  
