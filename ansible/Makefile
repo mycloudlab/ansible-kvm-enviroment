@@ -29,11 +29,11 @@ vms-start: ## inicia as vms
 vms-ssh-keys: ## configura ssh
 	@unbuffer ansible-playbook -i inventory/hosts_config-ssh.sh playbooks/run-vm-ssh-keys.yaml  | sed -E 's/\\n/\n/g'
 
-vms-common-config: ## faz a configuração comum do servidor
-	@unbuffer ansible-playbook playbooks/run-vm-common-config.yaml | sed -E 's/\\n/\n/g'
-
 vms-subscribe: ## subscreve as maquinas
 	@unbuffer ansible-playbook playbooks/run-vms-subscribe.yaml | sed -E 's/\\n/\n/g'
+
+vms-common-config: ## faz a configuração comum do servidor
+	@unbuffer ansible-playbook playbooks/run-vm-common-config.yaml | sed -E 's/\\n/\n/g'
 
 test: 
 	@unbuffer ansible-playbook  playbooks/run-test.yaml | sed -E 's/\\n/\n/g'
