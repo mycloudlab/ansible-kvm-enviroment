@@ -1,0 +1,19 @@
+---
+- name: rhel | Instalação do pacote ntp
+  package:
+    name: ntp
+    state: installed
+  register: result
+  until: result is success
+  retries: 3
+
+- name: configuração do ntp
+  template:
+    src: templates/ntp.conf.j2
+    dest: /etc/ntp.conf
+
+- name: restart and enable ntp
+  service: 
+    name: ntpd
+    state: restarted
+    enabled: yes

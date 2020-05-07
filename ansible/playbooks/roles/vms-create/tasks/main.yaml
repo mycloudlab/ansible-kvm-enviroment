@@ -14,7 +14,7 @@
   with_items: '{{ vms }}'
 
 - name: change root password
-  shell: virt-customize -a {{ item.qcow_disk_file }} --root-password password:{{ item.root_password }} --firstboot-command "hostnamectl set-hostname {{item.hostname}}" {% for net in item.networks %} --firstboot-command "nmcli dev connect eth{{ loop.index0 }}" {% endfor %}
+  shell: virt-customize -a {{ item.qcow_disk_file }} --root-password password:{{ item.root_password }}  --firstboot-command "ln -sf /usr/share/zoneinfo/{{item.timezone}} /etc/localtime" --firstboot-command "hostnamectl set-hostname {{item.hostname}}" {% for net in item.networks %} --firstboot-command "nmcli dev connect eth{{ loop.index0 }}" {% endfor %}
   with_items: '{{ vms }}'
 
 

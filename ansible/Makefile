@@ -35,6 +35,9 @@ vms-subscribe: ## subscreve as maquinas
 vms-common-config: ## faz a configuração comum do servidor
 	@unbuffer ansible-playbook playbooks/run-vm-common-config.yaml | sed -E 's/\\n/\n/g'
 
+vms-configure-ntp-client: ## faz a configuração comum do servidor
+	@unbuffer ansible-playbook playbooks/run-vms-configure-ntp-client.yaml | sed -E 's/\\n/\n/g'
+
 test: 
 	@unbuffer ansible-playbook  playbooks/run-test.yaml | sed -E 's/\\n/\n/g'
 
