@@ -9,7 +9,7 @@ WHOAMI        :=`whoami`
 
 help:
 	@printf "Uso: make [opções]\n\n"
-	@printf "$(YELLOW)Ansible Playbook - kafka $(NC)\n\n"
+	@printf "$(YELLOW)Ansible Playbook - kvm enviroment lab $(NC)\n\n"
 	@printf "opções:\n"
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "$(GREEN)%-20s$(NC) %s$(NC)\n", $$1, $$2}'
 	@printf "\n"
