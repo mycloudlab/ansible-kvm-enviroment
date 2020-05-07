@@ -3,7 +3,7 @@ vms:
   timezone: America/Sao_Paulo
   hostname: 'test-vm01'
   vcpu: 1
-  memory_kib: '1048576'
+  memory_kib: '4194304'
   qcow_template_disk_file: '/home/csantana/VirtualMachines/rhel-server-7.8-x86_64-kvm.qcow2'
   qcow_disk_file: '/home/csantana/VirtualMachines/vm01.qcow2'
   root_password: kafka
@@ -16,7 +16,7 @@ vms:
   timezone: America/Sao_Paulo
   hostname : 'test-vm02'
   vcpu: 1
-  memory_kib : '1048576'
+  memory_kib : '4194304'
   qcow_template_disk_file: '/home/csantana/VirtualMachines/rhel-server-7.8-x86_64-kvm.qcow2'
   qcow_disk_file : '/home/csantana/VirtualMachines/vm02.qcow2'
   root_password: kafka
