@@ -38,6 +38,9 @@ vms-common-config: ## faz a configuração comum do servidor
 vms-configure-ntp-client: ## faz a configuração comum do servidor
 	@unbuffer ansible-playbook playbooks/run-vms-configure-ntp-client.yaml | sed -E 's/\\n/\n/g'
 
+vms-configure-high-performance: ## faz a configuração comum do servidor
+	@unbuffer ansible-playbook playbooks/run-vms-configure-high-performance.yaml | sed -E 's/\\n/\n/g'
+
 test: 
 	@unbuffer ansible-playbook  playbooks/run-test.yaml | sed -E 's/\\n/\n/g'
 

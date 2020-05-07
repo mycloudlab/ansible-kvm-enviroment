@@ -1,0 +1,29 @@
+---
+- name: rhel | Desabilitando transparent huge pages
+  lineinfile:
+    state: present
+    dest: /etc/default/grub
+    backrefs: yes
+    regexp: '^(GRUB_CMDLINE_LINUX=(?!.* transparent_hugepage)\"[^\"]+)(\".*)'
+    line: '\1 transparent_hugepage=never\2'
+
+- name: rhel | recria configuração do grub 
+  shell: grub2-mkconfig -o /boot/grub2/grub.cfg
+
+- name: rhel | Reiniciando os hosts hugepages
+  tags: reboot
+  become: yes
+  become_user: root
+  shell: "sleep 5 && reboot"
+  async: 1
+  poll: 0
+
+- name: rhel | Aguardando pelo reboot e inicialização dos hosts para o grub
+  wait_for_connection:
+    connect_timeout: 10
+    sleep: 5
+    delay: 5
+    timeout: 500
+
+- name: rhel | confere se o transparent huge pages está desabilitado
+  shell: cat /sys/kernel/mm/transparent_hugepage/enabled |grep "\[never\]"

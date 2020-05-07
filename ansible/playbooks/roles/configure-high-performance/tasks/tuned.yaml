@@ -1,0 +1,32 @@
+---
+- name: rhel | Criando o perfil tuned customizado
+  file:
+    path: /usr/lib/tuned/custom-throughput-performance/
+    state: directory
+    mode: "u=rw,g=wx,o=rwx"
+
+- name: rhel | Copiando perfil tuned customizado 
+  template:
+    src: templates/tuned.conf.j2
+    dest: /usr/lib/tuned/custom-throughput-performance/tuned.conf
+    mode: '0744'
+
+- name: rhel | Aplicando perfil tuned customizado 
+  shell: >
+    tuned-adm profile custom-throughput-performance
+    
+- name: rhel | Reiniciando os hosts
+  tags: reboot
+  become: yes
+  become_user: root
+  shell: "sleep 5 && reboot"
+  async: 1
+  poll: 0
+
+- name: rhel | Aguardando pelo reboot e inicialização dos hosts
+  wait_for_connection:
+    connect_timeout: 10
+    sleep: 5
+    delay: 5
+    timeout: 500
+
