@@ -1,0 +1,6 @@
+zone "{{ item.name }}" IN { 
+     type master; 
+     file "/etc/named/named.{{item.name}}.db"; 
+     allow-update { none; }; 
+    allow-query {any; };
+}; 

@@ -1,0 +1,9 @@
+---
+- hosts: 
+    - dns
+
+  vars_files:
+    - ../vars/dns.yaml
+
+  roles:
+    - bind

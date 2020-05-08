@@ -1,0 +1,20 @@
+$TTL 86400
+@ IN SOA dns-primary.{{ item.name }}. admin.{{ item.name }}. (
+    2019061800 ;Serial
+    3600 ;Refresh
+    1800 ;Retry
+    604800 ;Expire
+    86400 ;Minimum TTL
+)
+
+;Name Server Information
+@ IN NS dns-primary.{{ item.name }}.
+
+;IP for Name Server
+dns-primary IN A {{ ansible_default_ipv4.address }}
+
+{% for record_type, record_value in item.records.items() %}
+{%for record in record_value %}
+{{ record.name }} IN {{ record_type }} {{ record.value }}
+{% endfor %}
+{% endfor %}

@@ -1,0 +1,42 @@
+---
+- name: dns | instala os pacotes básicos
+  package:
+    name:
+      - bind 
+      - bind-utils
+    state: installed
+  register: result
+  until: result is success
+  retries: 3
+
+- name: dns | criando arquivos de configuração das zonas
+  template:
+    src: templates/zona.conf.j2
+    dest: /etc/named/named.{{ item.name }}.conf
+    owner: root
+    group: named
+  with_items: '{{ dns.zones }}'
+
+
+- name: dns | criando banco de dados das zonas
+  template:
+    src: templates/db.j2
+    dest: /etc/named/named.{{ item.name }}.db
+    owner: root
+    group: named
+  with_items: '{{ dns.zones }}'
+
+
+- name: dns | configurando bind
+  template:
+    src: templates/named.conf.j2
+    dest: /etc/named.conf
+    owner: root
+    group: named
+
+#- name: dns | inicia serviço bind
+#  service: 
+#    name: named
+#    state: restarted
+#    enabled: yes
+

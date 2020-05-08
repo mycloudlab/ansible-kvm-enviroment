@@ -41,6 +41,12 @@ vms-configure-ntp-client: ## faz a configuração comum do servidor
 vms-configure-high-performance: ## faz a configuração comum do servidor
 	@unbuffer ansible-playbook playbooks/run-vms-configure-high-performance.yaml | sed -E 's/\\n/\n/g'
 
+dns-install: ## instala o serviço de dns
+	@unbuffer ansible-playbook playbooks/run-dns-install.yaml | sed -E 's/\\n/\n/g'
+
+vms-configure-dns: ## faz a configuração dns nas vms
+	@unbuffer ansible-playbook playbooks/run-vms-configure-dns.yaml -vvv | sed -E 's/\\n/\n/g'
+
 test: 
 	@unbuffer ansible-playbook  playbooks/run-test.yaml | sed -E 's/\\n/\n/g'
 

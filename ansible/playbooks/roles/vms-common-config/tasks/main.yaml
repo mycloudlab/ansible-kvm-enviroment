@@ -1,7 +1,12 @@
 ---
 - name: rhel | Instalação dos pacotes necessários
   package:
-    name: "{{ base_packages }}"
+    name: 
+      - nano
+      - vim
+      - wget 
+      - net-tools 
+      - tuned
     state: installed
   register: result
   until: result is success

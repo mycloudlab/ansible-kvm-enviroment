@@ -1,0 +1,21 @@
+dns:
+  zones:
+    - name: 168.192.in-addr.arpa
+      records:
+        PTR:
+          - name: 10.127
+            value: zoo-01.mycloudlab.com
+          - name: 11.127
+            value: zoo-02.mycloudlab.com
+          - name: 12.127
+            value: zoo-03.mycloudlab.com
+
+    - name: mycloudlab.com
+      records:
+        A: 
+          - name: zoo-01
+            value: 192.168.127.10
+          - name: zoo-02
+            value: 192.168.127.11
+          - name: zoo-03
+            value: 192.168.127.12

@@ -4,7 +4,14 @@
     - localhost
   vars_files:
     - ../vars/vms.yaml
+    - ../vars/dns.yaml
   tasks:
   - name: debug
     debug:
-      msg: System {{ vms }} has gateway 
+      msg: |-
+        {{ dns.zones }}
+
+
+        System dns 
+          {% for zone in dns.zones %} {% for rec in zone.records.A %} {{ rec.ip }}, {% endfor %} {% endfor %}
+          
