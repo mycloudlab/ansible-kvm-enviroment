@@ -1,0 +1,6 @@
+---
+- name: desubscreve a maquina
+  redhat_subscription:
+    state: absent
+    username: "{{ redhat_subscription.username }}"
+    password: "{{ redhat_subscription.password }}"

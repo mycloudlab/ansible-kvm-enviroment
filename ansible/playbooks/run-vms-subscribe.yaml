@@ -1,7 +1,0 @@
----
-- hosts: 
-    - all
-  vars_files:
-    - ../vars/hrel_subscription.yaml
-  roles:
-    - subscription-manager-register

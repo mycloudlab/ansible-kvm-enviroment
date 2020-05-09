@@ -1,0 +1,12 @@
+---
+- name: start vm
+  virt:
+    name: "{{ item.name }}"
+    state: running
+  with_items: '{{ vms }}'
+
+- name: aguarda vms estarem disponíveis
+  wait_for:
+    port: 22
+    host: '{{ item.networks[0].ip }}'
+  with_items: '{{ vms }}'

@@ -1,6 +1,0 @@
----
-- name: start vm
-  virt:
-    name: "{{ item.name }}"
-    state: running
-  with_items: '{{ vms }}'

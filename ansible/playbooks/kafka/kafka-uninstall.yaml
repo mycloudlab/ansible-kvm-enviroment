@@ -1,0 +1,20 @@
+---
+- name: desubscreve as maquinas
+  hosts: 
+    - all
+  vars_files:
+    - ../../vars/hrel_subscription.yaml
+  roles:
+    - subscription-manager-unregister
+
+- name: remove máquinas e rede
+  hosts: 
+    - localhost
+    
+  vars_files:
+    - vars/networks.yaml
+    - vars/vms.yaml
+
+  roles:
+    - vms-destroy
+    - network-destroy

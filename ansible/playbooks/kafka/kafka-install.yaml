@@ -1,0 +1,44 @@
+---
+- name: cria as máquinas virtuais
+  hosts: 
+    - localhost
+    
+  vars_files:
+    - vars/networks.yaml
+    - vars/vms.yaml
+
+  roles:
+    - network-create
+    - vms-create
+    - vms-start
+    - copy-ssh-keys
+
+
+- name: subscreve os hosts
+  hosts: 
+    - all
+  vars_files:
+    - ../../vars/hrel_subscription.yaml
+    - vars/networks.yaml
+    - vars/vms.yaml
+    - vars/ntp-client.yaml
+  roles:
+    - config-fast-ssh
+    - subscription-manager-register
+    - ntp-client
+
+- name: instala servidor dns
+  hosts: 
+    - dns
+  vars_files:
+    - vars/dns.yaml
+  roles:
+    - bind
+
+- name: configura dns
+  hosts: 
+    - all
+  vars_files:
+    - vars/vms.yaml
+  roles:
+    - configure-dns
