@@ -1,0 +1,13 @@
+---
+- name: rhel | configura ringbuffer para interfaces de rede 
+
+  shell: |
+    for iface in $(ip link show |grep -v LOOPBACK |grep '^[0-9]:' |cut -d ':'  -f2) 
+    do 
+      RX=$(ethtool -g $iface | head -6 | grep RX: | tr -d 'RX:'); 
+      TX=$(ethtool -g $iface | head -6 | grep TX: | tr -d 'TX:'); 
+      ethtool -G $iface rx $RX tx $TX;
+    done;
+  args:
+    executable: /bin/bash
+  ignore_errors: yes

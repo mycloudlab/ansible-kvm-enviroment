@@ -1,12 +1,12 @@
 ---
+
+
 - name: cria as máquinas virtuais
   hosts: 
     - localhost
-    
   vars_files:
     - vars/networks.yaml
     - vars/vms.yaml
-
   roles:
     - network-create
     - vms-create
@@ -14,7 +14,7 @@
     - copy-ssh-keys
 
 
-- name: subscreve os hosts
+- name: configura todas as maquinas com config default
   hosts: 
     - all
   vars_files:
@@ -25,7 +25,11 @@
   roles:
     - config-fast-ssh
     - subscription-manager-register
-    - ntp-client
+    - ntp-client    
+    - config-high-performance
+    - disable-transparent-huge-pages
+    - config-jumbo-frames
+    - config-ring-buffer
 
 - name: instala servidor dns
   hosts: 
@@ -42,3 +46,4 @@
     - vars/vms.yaml
   roles:
     - configure-dns
+

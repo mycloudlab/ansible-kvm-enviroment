@@ -1,14 +1,17 @@
 dns:
+  forwarders:
+    - 8.8.8.8
+    - 8.8.4.4
   zones:
     - name: 168.192.in-addr.arpa
       records:
         PTR:
           - name: 10.127
-            value: zoo-01.mycloudlab.com
+            value: zoo-01.mycloudlab.com.
           - name: 11.127
-            value: zoo-02.mycloudlab.com
+            value: zoo-02.mycloudlab.com.
           - name: 12.127
-            value: zoo-03.mycloudlab.com
+            value: zoo-03.mycloudlab.com.
 
     - name: mycloudlab.com
       records:

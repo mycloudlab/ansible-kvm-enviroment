@@ -7,6 +7,19 @@
     regexp: '^(GRUB_CMDLINE_LINUX=(?!.* transparent_hugepage)\"[^\"]+)(\".*)'
     line: '\1 transparent_hugepage=never\2'
 
+- name: Checa se foi criado o perfil customizado no tuned
+  stat:
+    path: /usr/lib/tuned/custom-throughput-performance/tuned.conf
+  register: stat_result
+
+- name: rhel | Desabilitando transparent huge pages no profile do tuned
+  lineinfile:
+    state: present
+    dest: /usr/lib/tuned/custom-throughput-performance/tuned.conf
+    insertafter: '\[sysctl\]'
+    line: "vm.transparent_hugepages=never"
+  when: stat_result.stat.exists
+
 - name: rhel | recria configuração do grub 
   shell: grub2-mkconfig -o /boot/grub2/grub.cfg
 

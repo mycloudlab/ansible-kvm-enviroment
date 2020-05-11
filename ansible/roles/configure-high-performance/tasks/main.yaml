@@ -1,3 +1,0 @@
----
-- import_tasks: tuned.yaml
-- import_tasks: disable-transparent-hugepages.yaml

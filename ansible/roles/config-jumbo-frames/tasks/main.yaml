@@ -1,0 +1,16 @@
+---
+- name: rhel | configura jumbo frames nas interfaces de rede
+  shell: |
+    for iface in $(ip link show |grep -v LOOPBACK |grep '^[0-9]:' |cut -d ':'  -f2) 
+    do 
+      if grep -Fxq "MTU=9000" /etc/sysconfig/network-scripts/ifcfg-$iface
+      then
+        echo ok
+      else
+         echo "MTU=9000" >> /etc/sysconfig/network-scripts/ifcfg-$iface
+      fi
+      ip link set dev $iface mtu 9000
+    done;
+  args:
+    executable: /bin/bash
+  ignore_errors: yes
