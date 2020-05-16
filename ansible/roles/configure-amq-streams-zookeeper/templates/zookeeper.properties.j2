@@ -1,0 +1,15 @@
+clientPort=2181
+maxClientCnxns=0
+admin.enableServer=false
+
+timeTick=2000
+dataDir=/var/lib/zookeeper/
+initLimit=5
+syncLimit=2
+reconfigEnabled=true
+standaloneEnabled=false
+4lw.commands.whitelist=stat
+
+{% for host in groups['zookeeper'] %}
+server.{{ hostvars[host]['zoo_id'] }}={{ host }}:2888:3888:participant;{{ host }}:2181
+{% endfor %}

@@ -1,0 +1,44 @@
+---
+- name: amq-streams | cria o grupo kafka
+  group:
+    name: kafka
+    state: present
+
+- name: amq-streams | cria o usuário kafka
+  user:
+    name: kafka
+    group: kafka
+    shell: /bin/bash
+    state: present
+
+- name: amq-streams | extrai instalação do amq streams
+  unarchive:
+    src: files/amq-streams-1.4.1-bin.zip
+    dest: /tmp
+  
+- name: amq-streams | cria diretório da instalação
+  file:
+    path: /opt/kafka
+    state: directory
+    owner: kafka
+    group: kafka
+
+- name: amq-streams | instala amq-streams
+  shell: rm -rf /opt/kafka/*; mv /tmp/kafka_*/* /opt/kafka; chown kafka:kafka -R /opt/kafka
+
+
+- name: configura limites do usuário kafka
+  pam_limits:
+    domain: kafka
+    limit_type: "{{ item.type }}"
+    limit_item: "{{ item.item }}"
+    value: "{{ item.value }}"
+  with_items:
+    - { item: nofile, type: hard, value: 1000000 } 
+    - { item: nofile, type: soft, value: 1000000 } 
+    - { item: memlock, type: soft, value: 100000000 } 
+    - { item: memlock, type: hard, value: 100000000 } 
+    - { item: nproc, type: soft, value: 32768 } 
+    - { item: nproc, type: hard, value: 32768 } 
+    - { item: stack, type: soft, value: unlimited } 
+    - { item: stack, type: hard, value: unlimited } 

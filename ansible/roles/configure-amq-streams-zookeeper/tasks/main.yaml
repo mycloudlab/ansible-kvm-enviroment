@@ -1,0 +1,40 @@
+---
+- name: amq-streams | cria diretório de instalação do zookeeper
+  file:
+    path: /var/lib/zookeeper
+    state: directory
+    owner: kafka
+    group: kafka
+
+- name: zookeeper | configuração do myid
+  copy:
+    dest: /var/lib/zookeeper/myid
+    content: "{{ zoo_id }}"
+    owner: kafka
+    group: kafka
+
+- name: zookeeper | configuração do servidor
+  template:
+    src: templates/zookeeper.properties.j2
+    dest: /opt/kafka/config/zookeeper.properties
+    owner: kafka
+    group: kafka
+
+- name: zookeeper | instala o serviço do zookepper no systemd
+  template:
+    src: templates/zookeeper.service.j2
+    dest: /etc/systemd/system/zookeeper.service
+    owner: kafka
+    group: kafka
+    force: yes
+
+- name: zookeeper | recarregar config systemd
+  systemd:
+    daemon_reload: yes
+
+- name: zookeeper | habilita e inicia o  systemd
+  become: yes
+  service:
+    name: zookeeper
+    enabled: yes
+    state: restarted

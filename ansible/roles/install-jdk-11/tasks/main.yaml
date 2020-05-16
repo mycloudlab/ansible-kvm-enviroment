@@ -1,0 +1,10 @@
+---
+- name: jdk-11 - Instalação dos pacotes necessários
+  package:
+    name: 
+      - java-11-openjdk.x86_64
+    state: installed
+  register: result
+  until: result is success
+  retries: 3
+

@@ -4,6 +4,10 @@
     name: 
       - nano
       - vim
+      - nmap
+      - bind-utils
+      - unzip
+      - zip
       - wget 
       - net-tools 
       - tuned

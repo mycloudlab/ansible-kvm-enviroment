@@ -1,49 +1,68 @@
 ---
+#- name: cria as máquinas virtuais
+#  hosts: 
+#    - localhost
+#  vars_files:
+#    - vars/networks.yaml
+#    - vars/vms.yaml
+#  roles:
+#    - network-create
+#    - vms-create
+#    - vms-start
+#    - copy-ssh-keys
+#
+#- name: configura todas as maquinas com config default
+#  hosts: 
+#    - all
+#  vars_files:
+#    - ../../vars/hrel_subscription.yaml
+#    - vars/networks.yaml
+#    - vars/vms.yaml
+#    - vars/ntp-client.yaml
+#  roles:
+#    - config-fast-ssh
+#    - subscription-manager-register
+#    - vms-common-config
+#    - ntp-client    
+#    - config-high-performance
+##    - disable-transparent-huge-pages
+#    - config-jumbo-frames
+#    - config-ring-buffer
+#
+#- name: instala servidor dns
+#  hosts: 
+#    - dns
+#  vars_files:
+#    - vars/dns.yaml
+#  roles:
+#    - bind
+#
+#- name: configura dns
+#  hosts: 
+#    - all
+#  vars_files:
+#    - vars/vms.yaml
+#  roles:
+#    - configure-dns
 
-
-- name: cria as máquinas virtuais
-  hosts: 
-    - localhost
-  vars_files:
-    - vars/networks.yaml
-    - vars/vms.yaml
+- name: instala amq-streams
+  hosts:
+    - zookeeper
+    - kafka
   roles:
-    - network-create
-    - vms-create
-    - vms-start
-    - copy-ssh-keys
+    #- vms-common-config
+    - install-jdk-11
+    - install-amq-streams
 
-
-- name: configura todas as maquinas com config default
-  hosts: 
-    - all
-  vars_files:
-    - ../../vars/hrel_subscription.yaml
-    - vars/networks.yaml
-    - vars/vms.yaml
-    - vars/ntp-client.yaml
+- name: configura amq-streams zookeeper hosts
+  hosts:
+    - zookeeper
   roles:
-    - config-fast-ssh
-    - subscription-manager-register
-    - ntp-client    
-    - config-high-performance
-    - disable-transparent-huge-pages
-    - config-jumbo-frames
-    - config-ring-buffer
-
-- name: instala servidor dns
-  hosts: 
-    - dns
-  vars_files:
-    - vars/dns.yaml
+    - configure-amq-streams-zookeeper
+  
+- name: configura amq-streams kafka hosts
+  hosts:
+    - kafka
   roles:
-    - bind
-
-- name: configura dns
-  hosts: 
-    - all
-  vars_files:
-    - vars/vms.yaml
-  roles:
-    - configure-dns
-
+    - configure-amq-streams-kafka
+  

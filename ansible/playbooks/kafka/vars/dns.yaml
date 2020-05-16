@@ -3,22 +3,46 @@ dns:
     - 8.8.8.8
     - 8.8.4.4
   zones:
-    - name: 168.192.in-addr.arpa
+    - name: 100.168.192.in-addr.arpa
       records:
         PTR:
-          - name: 10.127
-            value: zoo-01.mycloudlab.com.
-          - name: 11.127
-            value: zoo-02.mycloudlab.com.
-          - name: 12.127
-            value: zoo-03.mycloudlab.com.
+          - name: 11
+            value: kfk-zoo-01.mycloudlab.com.
+          - name: 12
+            value: kfk-zoo-02.mycloudlab.com.
+          - name: 13
+            value: kfk-zoo-03.mycloudlab.com.
+          - name: 21
+            value: kfk-kafka-01.mycloudlab.com.
+          - name: 22
+            value: kfk-kafka-02.mycloudlab.com.
+          - name: 23
+            value: kfk-kafka-03.mycloudlab.com.
+          - name: 24
+            value: kfk-kafka-04.mycloudlab.com.
+          - name: 31
+            value: kfk-influxdb.mycloudlab.com.
+          - name: 32
+            value: kfk-grafana.mycloudlab.com.
 
     - name: mycloudlab.com
       records:
         A: 
-          - name: zoo-01
-            value: 192.168.127.10
-          - name: zoo-02
-            value: 192.168.127.11
-          - name: zoo-03
-            value: 192.168.127.12
+          - name: kfk-zoo-01
+            value: 192.168.100.11
+          - name: kfk-zoo-02
+            value: 192.168.100.12
+          - name: kfk-zoo-03
+            value: 192.168.100.13
+          - name: kfk-kafka-01
+            value: 192.168.100.21
+          - name: kfk-kafka-02
+            value: 192.168.100.22
+          - name: kfk-kafka-03
+            value: 192.168.100.23
+          - name: kfk-kafka-04
+            value: 192.168.100.24
+          - name: kfk-influxdb
+            value: 192.168.100.31
+          - name: kfk-grafana
+            value: 192.168.100.32

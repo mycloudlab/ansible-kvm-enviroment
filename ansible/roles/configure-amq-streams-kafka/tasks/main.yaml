@@ -1,0 +1,33 @@
+---
+- name: amq-streams kafka | cria diretório de instalação do kafka
+  file:
+    path: /var/lib/kafka
+    state: directory
+    owner: kafka
+    group: kafka 
+
+- name: amq-streams kafka | configuração do servidor
+  template:
+    src: templates/server.properties.j2
+    dest: /opt/kafka/config/server.properties
+    owner: kafka
+    group: kafka
+
+- name: amq-streams kafka | instala o serviço do kafka no systemd
+  template:
+    src: templates/kafka.service.j2
+    dest: /etc/systemd/system/kafka.service
+    owner: kafka
+    group: kafka
+    force: yes
+
+- name: amq-streams kafka | recarregar config systemd
+  systemd:
+    daemon_reload: yes
+
+- name: amq-streams kafka | habilita e inicia o  systemd
+  become: yes
+  service:
+    name: kafka
+    enabled: yes
+    state: restarted

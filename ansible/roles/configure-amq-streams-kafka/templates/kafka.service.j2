@@ -1,0 +1,15 @@
+[Unit]
+Description=AMQ-Streams - kafka systemctl script
+After=NetworkManager.service
+
+[Service]
+User=kafka
+Group=kafka
+ExecStart=/opt/kafka/bin/kafka-server-start.sh /opt/kafka/config/server.properties
+ExecStop=/opt/kafka/bin/kafka-server-stop.sh
+TimeoutStartSec=1800
+TimeoutStopSec=1800
+WorkingDirectory=/var/lib/kafka
+
+[Install]
+WantedBy=multi-user.target

@@ -22,42 +22,14 @@
   delegate_to: localhost
   when: (not ssh_key_exist.stat.exists)
 
-#- name: Add a new user named ansible
-#  user:
-#    name: ansible
-#    shell: /bin/bash
-
-#- name: Add ansible user to the sudoers
-#  copy:
-#    dest: "/etc/sudoers.d/ansible"
-#    content: "ansible  ALL=(ALL)  NOPASSWD: ALL"
-
 - name: cria usuário ansible
-  shell: sshpass -p {{ item.root_password }} ssh root@{{ item.networks[0].ip }} adduser --shell /bin/bash ansible
+  shell: sshpass -p {{ item.root_password }} ssh -o "StrictHostKeyChecking=no"  root@{{ item.networks[0].ip }} adduser --shell /bin/bash ansible
   with_items: '{{ vms }}'
 
 - name: adiciona chave remota
-  shell: cat /home/{{ login_user }}/.ssh/id_rsa.pub | sshpass -p {{ item.root_password }} ssh root@{{ item.networks[0].ip }} 'mkdir /home/ansible/.ssh; cat >> /home/ansible/.ssh/authorized_keys && echo "Key copied"'
+  shell: cat /home/{{ login_user }}/.ssh/id_rsa.pub | sshpass -p {{ item.root_password }} ssh -o "StrictHostKeyChecking=no" root@{{ item.networks[0].ip }} 'mkdir /home/ansible/.ssh; cat >> /home/ansible/.ssh/authorized_keys && echo "Key copied"'
   with_items: '{{ vms }}'
 
 - name: Add ansible user to the sudoers
-  shell: "sshpass -p {{ item.root_password }} ssh root@{{ item.networks[0].ip }} 'echo \"ansible  ALL=(ALL)  NOPASSWD: ALL\" > /etc/sudoers.d/ansible '"
+  shell: "sshpass -p {{ item.root_password }} ssh -o \"StrictHostKeyChecking=no\"  root@{{ item.networks[0].ip }} 'echo \"ansible  ALL=(ALL)  NOPASSWD: ALL\" > /etc/sudoers.d/ansible '"
   with_items: '{{ vms }}'
-
-
-#- name: Deploy SSH Key
-#  authorized_key: 
-#    user: ansible
-#    key: "{{ lookup('file', '/home/{{ login_user }}/.ssh/id_rsa.pub') }}"
-#    state: present
-
-#- name: Modifica configuração do SSH 
-#  template: 
-#    src: "templates/sshd_config.j2"
-#    dest: "/etc/ssh/sshd_config"
-
-#- name: restart ssh
-#  service: 
-#    name: sshd
-#    state: restarted
-#    enabled: yes

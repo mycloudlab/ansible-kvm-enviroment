@@ -1,5 +1,4 @@
 ---
 - name: configure dns in servers
   shell: echo; {% for net in item.networks %} nmcli dev modify eth{{ loop.index0 }} ipv4.ignore-auto-dns yes; nmcli dev modify eth{{ loop.index0 }} ipv4.dns "{{ net.dns | join(" ") }}"; {% endfor %}
-#  shell: echo; {% for net in item.networks %} echo 1 {% endfor %}
   with_items: '{{ vms }}'

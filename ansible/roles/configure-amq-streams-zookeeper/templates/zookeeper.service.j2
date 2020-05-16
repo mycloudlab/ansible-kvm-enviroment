@@ -1,0 +1,15 @@
+[Unit]
+Description=AMQ-Streams - zookeeper systemctl script
+After=NetworkManager.service
+
+[Service]
+User=kafka
+Group=kafka
+ExecStart=/opt/kafka/bin/zookeeper-server-start.sh /opt/kafka/config/zookeeper.properties
+ExecStop=/opt/kafka/bin/zookeeper-server-stop.sh
+TimeoutStartSec=1800
+TimeoutStopSec=1800
+WorkingDirectory=/var/lib/zookeeper
+
+[Install]
+WantedBy=multi-user.target
