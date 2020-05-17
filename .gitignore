@@ -1,1 +1,3 @@
 ansible/vars/hrel_subscription.yaml
+
+ansible/playbooks/kafka/files/*.zip
